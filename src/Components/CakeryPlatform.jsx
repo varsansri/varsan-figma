@@ -1,172 +1,14 @@
-import { useState } from 'react'
+import { useState, createContext, useContext, useCallback } from 'react'
 
 const courses = [
-  {
-    id: 1,
-    title: "Complete Cake Baking Masterclass: Beginners to Pro",
-    instructor: "Chef Maria Rodriguez",
-    rating: 4.8,
-    reviews: 12453,
-    students: 67890,
-    price: 84.99,
-    originalPrice: 199.99,
-    image: "🎂",
-    level: "All Levels",
-    duration: "24.5 hours",
-    lectures: 186,
-    bestseller: true,
-    category: "baking",
-    description: "Learn everything from basic sponge cakes to multi-tiered wedding cakes. Master buttercream, fondant, and decorating techniques used by professionals worldwide.",
-    curriculum: [
-      "Introduction & Kitchen Setup (4 lectures, 45min)",
-      "Basic Sponge Cakes & Fillings (12 lectures, 3h)",
-      "Buttercream Mastery (8 lectures, 2.5h)",
-      "Fondant Fundamentals (10 lectures, 3h)",
-      "Advanced Decorating Techniques (14 lectures, 4h)",
-      "Wedding Cake Construction (8 lectures, 2.5h)",
-      "Business & Pricing Guide (6 lectures, 1.5h)",
-      "Final Project: Full Tiered Cake (4 lectures, 6h)"
-    ]
-  },
-  {
-    id: 2,
-    title: "Fondant Art & 3D Cake Sculpting",
-    instructor: "James Chen",
-    rating: 4.7,
-    reviews: 8921,
-    students: 45230,
-    price: 74.99,
-    originalPrice: 179.99,
-    image: "🍰",
-    level: "Intermediate",
-    duration: "18 hours",
-    lectures: 142,
-    bestseller: true,
-    category: "decorating",
-    description: "Create stunning 3D cake sculptures and master fondant techniques. From figurines to gravity-defying structures.",
-    curriculum: [
-      "Tools & Materials Overview (3 lectures, 40min)",
-      "Fondant Basics & Coloring (6 lectures, 1.5h)",
-      "Figurine Sculpting (10 lectures, 2.5h)",
-      "Gravity-Defying Structures (8 lectures, 2h)",
-      "Airbrush & Paint Techniques (6 lectures, 1.5h)",
-      "Portfolio-Worthy Final Projects (4 lectures, 8h)"
-    ]
-  },
-  {
-    id: 3,
-    title: "French Patisserie: Macarons, Croissants & More",
-    instructor: "Sophie Laurent",
-    rating: 4.9,
-    reviews: 15672,
-    students: 82400,
-    price: 94.99,
-    originalPrice: 224.99,
-    image: "🥐",
-    level: "Advanced",
-    duration: "32 hours",
-    lectures: 248,
-    bestseller: true,
-    category: "pastry",
-    description: "Master the art of French patisserie. Learn to create perfect macarons, flaky croissants, eclairs, and opera cakes from a Le Cordon Bleu graduate.",
-    curriculum: ["Coming soon"]
-  },
-  {
-    id: 4,
-    title: "Buttercream Flower Piping Techniques",
-    instructor: "Priya Sharma",
-    rating: 4.6,
-    reviews: 6789,
-    students: 34100,
-    price: 49.99,
-    originalPrice: 129.99,
-    image: "🌸",
-    level: "Beginner",
-    duration: "8 hours",
-    lectures: 64,
-    bestseller: false,
-    category: "decorating",
-    description: "Pipe beautiful buttercream flowers: roses, peonies, succulents and more. No prior experience needed.",
-    curriculum: ["Coming soon"]
-  },
-  {
-    id: 5,
-    title: "Vegan & Gluten-Free Cake Baking",
-    instructor: "Dr. Aisha Patel",
-    rating: 4.8,
-    reviews: 9845,
-    students: 51200,
-    price: 69.99,
-    originalPrice: 159.99,
-    image: "🌱",
-    level: "All Levels",
-    duration: "16 hours",
-    lectures: 128,
-    bestseller: false,
-    category: "baking",
-    description: "Delicious cakes without dairy, eggs, or gluten. Science-based approach to allergen-free baking that tastes amazing.",
-    curriculum: ["Coming soon"]
-  },
-  {
-    id: 6,
-    title: "Korean Lunchbox Cakes & Minimalist Design",
-    instructor: "Yuna Kim",
-    rating: 4.5,
-    reviews: 4532,
-    students: 21800,
-    price: 54.99,
-    originalPrice: 139.99,
-    image: "🎁",
-    level: "Beginner",
-    duration: "6.5 hours",
-    lectures: 52,
-    bestseller: false,
-    category: "decorating",
-    description: "The trendy Korean-style mini cakes taking social media by storm. Learn minimalist aesthetics and gifting techniques.",
-    curriculum: ["Coming soon"]
-  },
-  {
-    id: 7,
-    title: "Business of Cake: Turn Your Passion Into Profit",
-    instructor: "Michael Torres",
-    rating: 4.7,
-    reviews: 7654,
-    students: 38900,
-    price: 59.99,
-    originalPrice: 149.99,
-    image: "💼",
-    level: "All Levels",
-    duration: "10 hours",
-    lectures: 80,
-    bestseller: false,
-    category: "business",
-    description: "Pricing strategies, marketing, social media, and legal essentials for starting your own cake business from home.",
-    curriculum: ["Coming soon"]
-  },
-  {
-    id: 8,
-    title: "Tiered Wedding Cake Design & Construction",
-    instructor: "Chef Maria Rodriguez",
-    rating: 4.9,
-    reviews: 11234,
-    students: 56700,
-    price: 99.99,
-    originalPrice: 249.99,
-    image: "💒",
-    level: "Advanced",
-    duration: "28 hours",
-    lectures: 210,
-    bestseller: true,
-    category: "baking",
-    description: "Build stunning 3-5 tier wedding cakes. Learn structural engineering, transportation logistics, and professional assembly.",
-    curriculum: ["Coming soon"]
-  }
-]
-
-const testimonials = [
-  { name: "Sarah M.", text: "I went from burning box cakes to running my own bakery. This platform changed my life.", avatar: "👩‍🍳", rating: 5 },
-  { name: "David K.", text: "The instructors break down complex techniques so well. Worth every penny.", avatar: "👨‍🍳", rating: 5 },
-  { name: "Lisa R.", text: "I've taken 6 courses here. My kids' birthday cakes are now legendary.", avatar: "👩‍🍳", rating: 5 }
+  { id: 1, title: "Complete Cake Baking Masterclass: Beginners to Pro", instructor: "Chef Maria Rodriguez", rating: 4.8, reviews: 12453, price: 84.99, originalPrice: 199.99, image: "🎂", level: "All Levels", duration: "24.5h", lectures: 186, bestseller: true, category: "baking", desc: "Learn everything from basic sponge cakes to multi-tiered wedding cakes. Master buttercream, fondant, and decorating techniques used by professionals worldwide.", curriculum: ["Introduction & Kitchen Setup (45min)", "Basic Sponge Cakes & Fillings (3h)", "Buttercream Mastery (2.5h)", "Fondant Fundamentals (3h)", "Advanced Decorating (4h)", "Wedding Cake Construction (2.5h)", "Business & Pricing (1.5h)", "Final Project: Tiered Cake (6h)"] },
+  { id: 2, title: "Fondant Art & 3D Cake Sculpting", instructor: "James Chen", rating: 4.7, reviews: 8921, price: 74.99, originalPrice: 179.99, image: "🍰", level: "Intermediate", duration: "18h", lectures: 142, bestseller: true, category: "decorating", desc: "Create stunning 3D cake sculptures and master fondant techniques. From figurines to gravity-defying structures.", curriculum: ["Tools & Materials (40min)", "Fondant Basics (1.5h)", "Figurine Sculpting (2.5h)", "Gravity Structures (2h)", "Airbrush & Paint (1.5h)", "Final Projects (8h)"] },
+  { id: 3, title: "French Patisserie: Macarons, Croissants & More", instructor: "Sophie Laurent", rating: 4.9, reviews: 15672, price: 94.99, originalPrice: 224.99, image: "🥐", level: "Advanced", duration: "32h", lectures: 248, bestseller: true, category: "pastry", desc: "Master the art of French patisserie. Create perfect macarons, flaky croissants, eclairs, and opera cakes from a Le Cordon Bleu graduate.", curriculum: ["French Baking Fundamentals (1h)", "Macarons Mastery (3h)", "Croissants & Viennoiserie (4h)", "Éclairs & Choux Pastry (2h)", "Opera Cake & Entremets (2.5h)"] },
+  { id: 4, title: "Buttercream Flower Piping Techniques", instructor: "Priya Sharma", rating: 4.6, reviews: 6789, price: 49.99, originalPrice: 129.99, image: "🌸", level: "Beginner", duration: "8h", lectures: 64, bestseller: false, category: "decorating", desc: "Pipe beautiful buttercream flowers: roses, peonies, succulents and more. No prior experience needed.", curriculum: ["Tools & Setup (30min)", "Basic Roses (1.5h)", "Peonies & Ranunculus (1h)", "Succulents (1h)", "Advanced Bouquets (2h)"] },
+  { id: 5, title: "Vegan & Gluten-Free Cake Baking", instructor: "Dr. Aisha Patel", rating: 4.8, reviews: 9845, price: 69.99, originalPrice: 159.99, image: "🌱", level: "All Levels", duration: "16h", lectures: 128, bestseller: false, category: "baking", desc: "Delicious cakes without dairy, eggs, or gluten. Science-based approach to allergen-free baking that tastes amazing.", curriculum: ["Allergen Science (45min)", "Egg Substitutes (1.5h)", "Dairy-Free Creams & Frostings (1h)", "Gluten-Free Flour Blends (2h)", "Full Recipe Development (3h)"] },
+  { id: 6, title: "Korean Lunchbox Cakes & Minimalist Design", instructor: "Yuna Kim", rating: 4.5, reviews: 4532, price: 54.99, originalPrice: 139.99, image: "🎁", level: "Beginner", duration: "6.5h", lectures: 52, bestseller: false, category: "decorating", desc: "The trendy Korean-style mini cakes taking social media by storm. Learn minimalist aesthetics and perfect gifting techniques.", curriculum: ["Korean Cake Culture (30min)", "Mini Cake Bases (1h)", "Minimalist Design Principles (1.5h)", "Gift Packaging (45min)", "Social Media Photography (1h)"] },
+  { id: 7, title: "Business of Cake: Turn Passion Into Profit", instructor: "Michael Torres", rating: 4.7, reviews: 7654, price: 59.99, originalPrice: 149.99, image: "💼", level: "All Levels", duration: "10h", lectures: 80, bestseller: false, category: "business", desc: "Pricing strategies, marketing, social media, and legal essentials for starting your own cake business from home.", curriculum: ["Business Setup (1h)", "Pricing Strategies (1.5h)", "Social Media Marketing (2h)", "Client Management (1h)", "Legal & Licensing (45min)"] },
+  { id: 8, title: "Tiered Wedding Cake Design & Construction", instructor: "Chef Maria Rodriguez", rating: 4.9, reviews: 11234, price: 99.99, originalPrice: 249.99, image: "💒", level: "Advanced", duration: "28h", lectures: 210, bestseller: true, category: "baking", desc: "Build stunning 3-5 tier wedding cakes. Learn structural engineering, transportation logistics, and professional assembly.", curriculum: ["Structural Engineering (1h)", "Tier Stacking (2h)", "Fondant Covering (3h)", "Decorative Elements (3h)", "Transport & Assembly (1.5h)"] },
 ]
 
 const categories = [
@@ -177,30 +19,35 @@ const categories = [
   { id: 'business', name: 'Business', icon: '💼' },
 ]
 
-function StarRating({ rating, reviews }) {
+const testimonials = [
+  { name: "Sarah M.", text: "I went from burning box cakes to running my own bakery. This platform changed my life.", avatar: "👩‍🍳", rating: 5 },
+  { name: "David K.", text: "The instructors break down complex techniques so well. Worth every penny.", avatar: "👨‍🍳", rating: 5 },
+  { name: "Lisa R.", text: "I've taken 6 courses here. My kids' birthday cakes are now legendary.", avatar: "👩‍🍳", rating: 5 },
+]
+
+const AppCtx = createContext()
+function useApp() { return useContext(AppCtx) }
+
+function Star({ rating, reviews }) {
   return (
     <span className="flex items-center gap-1">
-      <span className="text-amber-400 text-sm">
-        {'★'.repeat(Math.floor(rating))}
-      </span>
-      <span className="text-amber-400/60 text-sm">
-        {'★'.repeat(5 - Math.floor(rating))}
-      </span>
-      <span className="text-amber-400 font-semibold text-sm ml-0.5">{rating}</span>
-      {reviews != null && <span className="text-zinc-500 text-xs ml-1">({reviews.toLocaleString()})</span>}
+      <span className="text-amber-400 text-sm">{'★'.repeat(Math.floor(rating))}{'☆'.repeat(5 - Math.floor(rating))}</span>
+      <span className="text-amber-400 font-semibold text-sm">{rating}</span>
+      {reviews != null && <span className="text-zinc-500 text-xs">({reviews.toLocaleString()})</span>}
     </span>
   )
 }
 
 function Badge({ children, color = 'amber' }) {
-  const colors = { amber: 'bg-amber-500/15 text-amber-400 border-amber-500/20', green: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', purple: 'bg-purple-500/15 text-purple-400 border-purple-500/20' }
-  return <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${colors[color]}`}>{children}</span>
+  const c = { amber: 'bg-amber-500/15 text-amber-400 border-amber-500/20', green: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', purple: 'bg-purple-500/15 text-purple-400 border-purple-500/20' }
+  return <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${c[color]}`}>{children}</span>
 }
 
-function CourseCard({ course, onSelect, compact }) {
+function CourseCard({ course }) {
+  const { navigate } = useApp()
   const discount = Math.round((1 - course.price / course.originalPrice) * 100)
   return (
-    <div onClick={() => onSelect(course)} className="group cursor-pointer bg-zinc-900/80 border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-600 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300">
+    <div onClick={() => navigate('detail', course)} className="group cursor-pointer bg-zinc-900/80 border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-600 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 hover:-translate-y-1">
       <div className="h-44 bg-gradient-to-br from-rose-900/30 via-purple-900/20 to-zinc-900 flex items-center justify-center text-6xl relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
         <span className="relative z-10">{course.image}</span>
@@ -209,49 +56,54 @@ function CourseCard({ course, onSelect, compact }) {
       <div className="p-4">
         <h3 className="font-semibold text-sm leading-tight mb-1.5 line-clamp-2 group-hover:text-purple-400 transition-colors">{course.title}</h3>
         <p className="text-xs text-zinc-500 mb-2">{course.instructor}</p>
-        <StarRating rating={course.rating} reviews={course.reviews} />
+        <Star rating={course.rating} reviews={course.reviews} />
         <div className="flex items-baseline gap-2 mt-2.5">
           <span className="text-lg font-bold">${course.price}</span>
           <span className="text-sm text-zinc-500 line-through">${course.originalPrice}</span>
           <span className="text-xs text-emerald-400 ml-auto font-semibold">{discount}% off</span>
         </div>
-        {!compact && (
-          <div className="flex items-center gap-2 mt-2.5 text-xs text-zinc-500">
-            <span className="px-1.5 py-0.5 bg-zinc-800 rounded">{course.level}</span>
-            <span>{course.duration}</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2 mt-2.5 text-xs text-zinc-500">
+          <span className="px-1.5 py-0.5 bg-zinc-800 rounded">{course.level}</span>
+          <span>{course.duration}</span>
+          <span>{course.lectures} lectures</span>
+        </div>
       </div>
     </div>
   )
 }
 
-function CourseDetailModal({ course, onClose }) {
-  const [activeTab, setActiveTab] = useState('overview')
-  if (!course) return null
+function CourseDetailModal() {
+  const { selectedCourse, navigate, cart, addToCart, addToEnrolled } = useApp()
+  const [tab, setTab] = useState('overview')
+  if (!selectedCourse) return null
+  const c = selectedCourse
+  const inCart = cart.includes(c.id)
+
   return (
-    <div className="fixed inset-0 bg-black/90 z-50 overflow-y-auto" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/90 z-50 overflow-y-auto" onClick={() => navigate('browse')}>
       <div className="min-h-screen flex items-start justify-center p-4 md:p-8">
         <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-4xl w-full my-8" onClick={e => e.stopPropagation()}>
           <div className="h-56 bg-gradient-to-br from-rose-900/40 via-purple-900/30 to-zinc-950 flex items-center justify-center text-9xl relative">
-            <button onClick={onClose} className="absolute top-4 right-4 bg-black/50 backdrop-blur text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg cursor-pointer">×</button>
+            <button onClick={() => navigate('browse')} className="absolute top-4 right-4 bg-black/50 backdrop-blur text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg cursor-pointer">×</button>
           </div>
           <div className="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <Badge color="amber">{course.category.toUpperCase()}</Badge>
-              <h1 className="text-2xl font-bold mt-3 mb-2">{course.title}</h1>
-              <StarRating rating={course.rating} reviews={course.reviews} />
-              <p className="text-zinc-400 mt-4 leading-relaxed text-sm">{course.description}</p>
+              <Badge color="amber">{c.category.toUpperCase()}</Badge>
+              <h1 className="text-2xl font-bold mt-3 mb-2">{c.title}</h1>
+              <Star rating={c.rating} reviews={c.reviews} />
+              <p className="text-zinc-400 mt-4 leading-relaxed text-sm">{c.desc}</p>
               <div className="flex gap-3 mt-6 border-b border-zinc-800 pb-3">
-                {['overview', 'curriculum', 'instructor'].map(tab => (
-                  <button key={tab} onClick={() => setActiveTab(tab)} className={`text-xs font-semibold pb-2 border-b-2 transition-colors cursor-pointer ${activeTab === tab ? 'border-purple-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}>{tab.charAt(0).toUpperCase() + tab.slice(1)}</button>
+                {['overview', 'curriculum', 'instructor'].map(t => (
+                  <button key={t} onClick={() => setTab(t)} className={`text-xs font-semibold pb-2 border-b-2 transition-colors cursor-pointer ${tab === t ? 'border-purple-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}>
+                    {t.charAt(0).toUpperCase() + t.slice(1)}
+                  </button>
                 ))}
               </div>
-              {activeTab === 'overview' && (
+              {tab === 'overview' && (
                 <div className="mt-5 space-y-4 text-sm">
                   <div className="grid grid-cols-2 gap-4">
-                    {[{ label: 'Duration', val: course.duration }, { label: 'Lectures', val: course.lectures }, { label: 'Level', val: course.level }, { label: 'Language', val: 'English' }].map(item => (
-                      <div key={item.label} className="bg-zinc-900 rounded-lg p-3"><p className="text-xs text-zinc-500">{item.label}</p><p className="font-semibold text-sm mt-0.5">{item.val}</p></div>
+                    {[{ label: 'Duration', val: c.duration }, { label: 'Lectures', val: c.lectures }, { label: 'Level', val: c.level }, { label: 'Language', val: 'English' }].map(i => (
+                      <div key={i.label} className="bg-zinc-900 rounded-lg p-3"><p className="text-xs text-zinc-500">{i.label}</p><p className="font-semibold text-sm mt-0.5">{i.val}</p></div>
                     ))}
                   </div>
                   <div className="bg-zinc-900 rounded-lg p-4">
@@ -266,9 +118,9 @@ function CourseDetailModal({ course, onClose }) {
                   </div>
                 </div>
               )}
-              {activeTab === 'curriculum' && (
+              {tab === 'curriculum' && (
                 <div className="mt-5 space-y-1 text-sm">
-                  {course.curriculum.map((item, i) => (
+                  {c.curriculum.map((item, i) => (
                     <div key={i} className="bg-zinc-900 rounded-lg p-3 flex items-center gap-3">
                       <span className="text-zinc-600 text-xs w-6">{String(i + 1).padStart(2, '0')}</span>
                       <span className="text-zinc-300 text-xs">{item}</span>
@@ -276,12 +128,12 @@ function CourseDetailModal({ course, onClose }) {
                   ))}
                 </div>
               )}
-              {activeTab === 'instructor' && (
+              {tab === 'instructor' && (
                 <div className="mt-5 flex gap-4">
-                  <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center text-2xl shrink-0">{course.image}</div>
+                  <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center text-2xl shrink-0">{c.image}</div>
                   <div>
-                    <h4 className="font-semibold">{course.instructor}</h4>
-                    <p className="text-xs text-zinc-500 mt-0.5">Professional Pastry Chef • {course.students.toLocaleString()} students</p>
+                    <h4 className="font-semibold">{c.instructor}</h4>
+                    <p className="text-xs text-zinc-500 mt-0.5">Professional Pastry Chef • 67k students</p>
                     <p className="text-xs text-zinc-400 mt-2 leading-relaxed">Award-winning pastry chef with 15+ years of experience teaching thousands of students worldwide. Graduate of Le Cordon Bleu Paris.</p>
                   </div>
                 </div>
@@ -289,17 +141,18 @@ function CourseDetailModal({ course, onClose }) {
             </div>
             <div className="lg:col-span-1">
               <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 sticky top-8">
-                <p className="text-3xl font-bold">${course.price}</p>
-                <p className="text-sm text-zinc-500 line-through">${course.originalPrice}</p>
-                <p className="text-xs text-emerald-400 mt-1 font-semibold">{Math.round((1 - course.price / course.originalPrice) * 100)}% off — Limited time</p>
-                <button className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 rounded-lg mt-4 transition-colors text-sm cursor-pointer">Enroll Now</button>
-                <button className="w-full border border-zinc-700 hover:border-zinc-500 text-white font-semibold py-3 rounded-lg mt-2 transition-colors text-sm cursor-pointer">Add to Cart</button>
+                <p className="text-3xl font-bold">${c.price}</p>
+                <p className="text-sm text-zinc-500 line-through">${c.originalPrice}</p>
+                <p className="text-xs text-emerald-400 mt-1 font-semibold">{Math.round((1 - c.price / c.originalPrice) * 100)}% off</p>
+                <button onClick={() => { addToEnrolled(c.id); alert('Enrolled successfully! 🎉') }} className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 rounded-lg mt-4 transition-colors text-sm cursor-pointer">Enroll Now</button>
+                <button onClick={() => addToCart(c.id)} className={`w-full border font-semibold py-3 rounded-lg mt-2 transition-all text-sm cursor-pointer ${inCart ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400' : 'border-zinc-700 hover:border-zinc-500 text-white'}`}>
+                  {inCart ? '✓ Added to Cart' : 'Add to Cart'}
+                </button>
                 <p className="text-center text-xs text-zinc-600 mt-3">30-Day Money-Back Guarantee</p>
                 <div className="border-t border-zinc-800 mt-4 pt-4 space-y-2.5 text-xs">
-                  <div className="flex justify-between"><span className="text-zinc-500">Duration</span><span>{course.duration}</span></div>
-                  <div className="flex justify-between"><span className="text-zinc-500">Lectures</span><span>{course.lectures}</span></div>
-                  <div className="flex justify-between"><span className="text-zinc-500">Level</span><span>{course.level}</span></div>
-                  <div className="flex justify-between"><span className="text-zinc-500">Certificate</span><span>Yes</span></div>
+                  {[{ k: 'Duration', v: c.duration }, { k: 'Lectures', v: c.lectures }, { k: 'Level', v: c.level }, { k: 'Certificate', v: 'Yes' }].map(r => (
+                    <div key={r.k} className="flex justify-between"><span className="text-zinc-500">{r.k}</span><span>{r.v}</span></div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -311,11 +164,12 @@ function CourseDetailModal({ course, onClose }) {
 }
 
 function ClientHeader({ page, setPage }) {
+  const { cart } = useApp()
   const tabs = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'browse', label: 'Browse', icon: '🔍' },
-    { id: 'learning', label: 'My Learning', icon: '📖' },
-    { id: 'checkout', label: 'Cart (2)', icon: '🛒' },
+    { id: 'home', label: 'Home' },
+    { id: 'browse', label: 'Browse' },
+    { id: 'learning', label: 'My Learning' },
+    { id: 'cart', label: `Cart (${cart.length})` },
   ]
   return (
     <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur sticky top-0 z-50">
@@ -325,28 +179,22 @@ function ClientHeader({ page, setPage }) {
           <span className="font-bold text-base hidden sm:inline bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">CakeMaster</span>
         </div>
         <nav className="hidden md:flex items-center gap-1">
-          {tabs.map(tab => (
-            <button key={tab.id} onClick={() => setPage(tab.id)} className={`px-3 py-1.5 rounded-md text-sm transition-colors cursor-pointer ${page === tab.id ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'}`}>
-              <span className="mr-1">{tab.icon}</span>{tab.label}
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setPage(t.id)} className={`px-3 py-1.5 rounded-md text-sm transition-colors cursor-pointer ${page === t.id ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'}`}>
+              {t.label}
             </button>
           ))}
         </nav>
         <div className="flex-1" />
-        <div className="hidden md:flex items-center gap-3 text-sm">
-          <span className="text-zinc-400 hover:text-white transition-colors cursor-pointer">Teach on CakeMaster</span>
-          <span className="text-zinc-600">|</span>
-          <span className="text-zinc-400 hover:text-white transition-colors cursor-pointer">Sign In</span>
-          <button className="bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-md hover:bg-zinc-200 transition-colors cursor-pointer">Get Started</button>
-        </div>
-        <button className="md:hidden text-zinc-400 text-lg">☰</button>
+        <button className="bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-md hover:bg-zinc-200 transition-colors cursor-pointer">Get Started</button>
       </div>
     </header>
   )
 }
 
-function HomePage({ setPage, setSelectedCourse }) {
-  const [activeCategory, setActiveCategory] = useState('all')
-  const filtered = courses.filter(c => activeCategory === 'all' || c.category === activeCategory)
+function PageHome({ setPage }) {
+  const { navigate, filterCat, setFilterCat } = useApp()
+  const filtered = courses.filter(c => !filterCat || c.category === filterCat)
 
   return (
     <div>
@@ -372,15 +220,8 @@ function HomePage({ setPage, setSelectedCourse }) {
                 <button className="border border-zinc-600 hover:border-zinc-400 text-white font-semibold px-6 py-3.5 rounded-xl transition-colors text-sm cursor-pointer">▶ Watch Intro (2 min)</button>
               </div>
               <div className="flex flex-wrap items-center gap-6 mt-8 text-sm">
-                {[
-                  { icon: '⭐', label: '4.8 avg rating' },
-                  { icon: '👨‍🍳', label: '50+ expert chefs' },
-                  { icon: '👥', label: '400K+ students' },
-                  { icon: '🎓', label: 'Certificate' },
-                ].map(stat => (
-                  <span key={stat.label} className="text-zinc-400 flex items-center gap-1.5">
-                    <span>{stat.icon}</span> {stat.label}
-                  </span>
+                {['⭐ 4.8 avg rating', '👨‍🍳 50+ expert chefs', '👥 400K+ students', '🎓 Certificate'].map(s => (
+                  <span key={s} className="text-zinc-400">{s}</span>
                 ))}
               </div>
             </div>
@@ -391,9 +232,6 @@ function HomePage({ setPage, setSelectedCourse }) {
                   <div className="text-8xl mb-4">🎂</div>
                   <p className="font-bold text-xl">Start Baking Today</p>
                   <p className="text-zinc-400 text-sm mt-1">Courses from $49.99</p>
-                  <div className="flex justify-center gap-2 mt-4">
-                    {['🌹', '💐', '🌸', '🎀'].map((e, i) => <span key={i} className="text-2xl opacity-60">{e}</span>)}
-                  </div>
                 </div>
               </div>
             </div>
@@ -407,19 +245,18 @@ function HomePage({ setPage, setSelectedCourse }) {
             <h2 className="text-2xl font-bold">Top Cake Classes</h2>
             <p className="text-zinc-500 mt-1">Handpicked courses to start your journey</p>
           </div>
-          <button onClick={() => setPage('browse')} className="text-sm text-purple-400 hover:text-purple-300 transition-colors hidden sm:inline cursor-pointer">View All →</button>
+          <button onClick={() => setPage('browse')} className="text-sm text-purple-400 hover:text-purple-300 cursor-pointer">View All →</button>
         </div>
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
           {categories.map(cat => (
-            <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${activeCategory === cat.id ? 'bg-white text-black' : 'bg-zinc-800/80 text-zinc-400 hover:bg-zinc-700 hover:text-white'}`}>
+            <button key={cat.id} onClick={() => setFilterCat(cat.id === 'all' ? '' : cat.id)} className={`shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${(filterCat || 'all') === (cat.id === 'all' ? '' : cat.id) ? 'bg-white text-black' : 'bg-zinc-800/80 text-zinc-400 hover:bg-zinc-700 hover:text-white'}`}>
               <span>{cat.icon}</span> {cat.name}
             </button>
           ))}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map(c => <CourseCard key={c.id} course={c} onSelect={setSelectedCourse} />)}
+          {filtered.map(c => <CourseCard key={c.id} course={c} />)}
         </div>
-        {filtered.length === 0 && <div className="text-center py-16"><span className="text-4xl block mb-3">🔍</span><p className="text-zinc-500">No courses found</p></div>}
       </section>
 
       <section className="border-t border-zinc-800 bg-zinc-900/30 py-16">
@@ -468,14 +305,8 @@ function HomePage({ setPage, setSelectedCourse }) {
               </div>
             ))}
           </div>
-          <div className="border-t border-zinc-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-zinc-500">
-              <span>🧁</span>
-              <span className="text-xs">© 2026 CakeMaster Inc.</span>
-            </div>
-            <div className="text-xs text-zinc-600 flex items-center gap-1">
-              <span>🌐</span> English (US)
-            </div>
+          <div className="border-t border-zinc-800 mt-10 pt-6 text-center text-xs text-zinc-600">
+            <span>🧁</span> © 2026 CakeMaster Inc. All rights reserved.
           </div>
         </div>
       </footer>
@@ -483,39 +314,38 @@ function HomePage({ setPage, setSelectedCourse }) {
   )
 }
 
-function BrowsePage({ setSelectedCourse }) {
-  const [category, setCategory] = useState('all')
+function PageBrowse() {
+  const { navigate, filterCat, setFilterCat, sortBy, setSortBy, search, setSearch } = useApp()
   const [level, setLevel] = useState('all')
-  const [sort, setSort] = useState('popular')
-  const [search, setSearch] = useState('')
-  const filtered = courses.filter(c => {
-    if (category !== 'all' && c.category !== category) return false
-    if (level !== 'all' && c.level !== level) return false
-    if (search && !c.title.toLowerCase().includes(search.toLowerCase())) return false
-    return true
-  })
+  const [localCat, setLocalCat] = useState(filterCat || 'all')
+
+  const filtered = courses
+    .filter(c => (localCat === 'all' || c.category === localCat))
+    .filter(c => (level === 'all' || c.level === level))
+    .filter(c => !search || c.title.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (sortBy === 'price-low') return a.price - b.price
+      if (sortBy === 'price-high') return b.price - a.price
+      if (sortBy === 'rating') return b.rating - a.rating
+      return b.reviews - a.reviews
+    })
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold">Browse All Courses</h1>
-        <p className="text-zinc-500 mt-1 text-sm">{filtered.length} courses available</p>
-      </div>
+      <div className="mb-8"><h1 className="text-2xl font-bold">Browse All Courses</h1><p className="text-zinc-500 mt-1 text-sm">{filtered.length} courses available</p></div>
       <div className="flex flex-col lg:flex-row gap-8">
         <aside className="lg:w-56 shrink-0">
           <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 space-y-6 sticky top-20">
-            <div>
-              <div className="relative">
-                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search courses..." className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-8 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500" />
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs">🔍</span>
-              </div>
+            <div className="relative">
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search courses..." className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-8 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500" />
+              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs">🔍</span>
             </div>
             <div>
               <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-3">Category</h4>
               <div className="space-y-1">
                 {categories.map(c => (
-                  <button key={c.id} onClick={() => setCategory(c.id)} className={`w-full text-left text-xs py-1.5 px-2 rounded transition-colors cursor-pointer ${category === c.id ? 'bg-zinc-800 text-white font-medium' : 'text-zinc-500 hover:text-zinc-300'}`}>
-                    <span className="mr-2">{c.icon}</span>{c.name}
+                  <button key={c.id} onClick={() => setLocalCat(c.id)} className={`w-full text-left text-xs py-1.5 px-2 rounded transition-colors cursor-pointer ${localCat === c.id ? 'bg-zinc-800 text-white font-medium' : 'text-zinc-500 hover:text-zinc-300'}`}>
+                    {c.icon} {c.name}
                   </button>
                 ))}
               </div>
@@ -524,35 +354,27 @@ function BrowsePage({ setSelectedCourse }) {
               <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-3">Level</h4>
               <div className="space-y-1">
                 {['all', 'Beginner', 'Intermediate', 'Advanced', 'All Levels'].map(l => (
-                  <button key={l} onClick={() => setLevel(l === 'all' ? 'all' : l)} className={`w-full text-left text-xs py-1.5 px-2 rounded transition-colors cursor-pointer ${level === l || (l === 'all' && level === 'all') ? 'bg-zinc-800 text-white font-medium' : 'text-zinc-500 hover:text-zinc-300'}`}>
-                    {l === 'all' ? 'All Levels' : l}
+                  <button key={l} onClick={() => setLevel(l === 'all' ? 'all' : l)} className={`w-full text-left text-xs py-1.5 px-2 rounded transition-colors cursor-pointer ${level === l ? 'bg-zinc-800 text-white font-medium' : 'text-zinc-500 hover:text-zinc-300'}`}>
+                    {l}
                   </button>
                 ))}
               </div>
             </div>
-            <div>
-              <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-3">Price Range</h4>
-              <div className="flex gap-2">
-                <input placeholder="Min" className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs text-white placeholder-zinc-500" />
-                <input placeholder="Max" className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs text-white placeholder-zinc-500" />
-              </div>
-            </div>
-            <button className="w-full text-xs text-zinc-500 hover:text-white transition-colors cursor-pointer">Clear Filters</button>
+            <button onClick={() => { setLocalCat('all'); setLevel('all'); setSearch(''); }} className="w-full text-xs text-zinc-500 hover:text-white transition-colors cursor-pointer">Clear Filters</button>
           </div>
         </aside>
         <main className="flex-1">
           <div className="flex items-center justify-between mb-5">
             <p className="text-xs text-zinc-500">{filtered.length} results</p>
-            <select value={sort} onChange={e => setSort(e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white cursor-pointer">
+            <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white cursor-pointer">
               <option value="popular">Most Popular</option>
-              <option value="newest">Newest</option>
+              <option value="rating">Highest Rated</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
             </select>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {filtered.map(c => <CourseCard key={c.id} course={c} onSelect={setSelectedCourse} />)}
+            {filtered.map(c => <CourseCard key={c.id} course={c} />)}
           </div>
           {filtered.length === 0 && <div className="text-center py-20"><span className="text-4xl block mb-3">🔍</span><p className="text-zinc-500">No courses match your filters</p></div>}
         </main>
@@ -561,49 +383,51 @@ function BrowsePage({ setSelectedCourse }) {
   )
 }
 
-function LearningDashboardPage() {
-  const enrolled = [
-    { ...courses[0], progress: 64, lastAccessed: '2 days ago', image: '🎂' },
-    { ...courses[1], progress: 28, lastAccessed: '1 week ago', image: '🍰' },
-    { ...courses[4], progress: 12, lastAccessed: '3 days ago', image: '🌱' },
-  ]
+function PageLearning() {
+  const { enrolled, navigate } = useApp()
+  const myCourses = courses.filter(c => enrolled.includes(c.id))
+  const progress = { 1: 64, 2: 28, 4: 50, 5: 12, 6: 8 }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold">My Learning</h1>
-          <p className="text-zinc-500 text-sm mt-1">You have {enrolled.length} active courses</p>
+          <p className="text-zinc-500 text-sm mt-1">{myCourses.length > 0 ? `You have ${myCourses.length} active course${myCourses.length > 1 ? 's' : ''}` : 'Start your learning journey today!'}</p>
         </div>
-        <button onClick={() => {}} className="text-sm text-purple-400 hover:text-purple-300 transition-colors cursor-pointer">Browse More Courses →</button>
+        <button onClick={() => navigate('browse')} className="text-sm text-purple-400 hover:text-purple-300 cursor-pointer">Browse More Courses →</button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-12">
-        {enrolled.map((course, i) => (
-          <div key={i} className="bg-zinc-900/80 border border-zinc-800 rounded-xl overflow-hidden">
-            <div className="h-32 bg-gradient-to-br from-rose-900/30 via-purple-900/20 to-zinc-900 flex items-center justify-center text-5xl relative">
-              {course.image}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-zinc-800"><div className="h-full bg-gradient-to-r from-purple-500 to-rose-500 transition-all duration-500" style={{ width: `${course.progress}%` }} /></div>
-            </div>
-            <div className="p-4">
-              <h3 className="font-semibold text-sm mb-1 line-clamp-1">{course.title}</h3>
-              <p className="text-xs text-zinc-500 mb-3">{course.instructor}</p>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-purple-400 font-semibold">{course.progress}% complete</span>
-                <span className="text-zinc-600">{course.lastAccessed}</span>
+      {myCourses.length === 0 ? (
+        <div className="text-center py-20"><span className="text-6xl block mb-4">📚</span><p className="text-zinc-400 mb-4">No enrolled courses yet</p><button onClick={() => navigate('browse')} className="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-6 py-2.5 rounded-lg text-sm cursor-pointer">Browse Courses</button></div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-12">
+            {myCourses.map(c => (
+              <div key={c.id} className="bg-zinc-900/80 border border-zinc-800 rounded-xl overflow-hidden">
+                <div className="h-32 bg-gradient-to-br from-rose-900/30 via-purple-900/20 to-zinc-900 flex items-center justify-center text-5xl relative">
+                  {c.image}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-zinc-800"><div className="h-full bg-gradient-to-r from-purple-500 to-rose-500" style={{ width: `${progress[c.id] || 0}%` }} /></div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-sm mb-1 line-clamp-1">{c.title}</h3>
+                  <p className="text-xs text-zinc-500 mb-3">{c.instructor}</p>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-purple-400 font-semibold">{progress[c.id] || 0}% complete</span>
+                    <button onClick={() => navigate('detail', c)} className="text-purple-400 hover:text-purple-300 cursor-pointer">Continue →</button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
       <div className="border-t border-zinc-800 pt-8">
         <h2 className="text-lg font-bold mb-4">Recommended For You</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {courses.slice(2, 6).map(c => (
-            <div key={c.id} className="bg-zinc-900/60 border border-zinc-800 rounded-lg p-3 flex items-center gap-3 hover:border-zinc-600 transition-colors cursor-pointer">
+          {courses.filter(c => !enrolled.includes(c.id)).slice(0, 4).map(c => (
+            <div key={c.id} onClick={() => navigate('detail', c)} className="bg-zinc-900/60 border border-zinc-800 rounded-lg p-3 flex items-center gap-3 hover:border-zinc-600 transition-colors cursor-pointer">
               <span className="text-3xl shrink-0">{c.image}</span>
-              <div className="min-w-0">
-                <p className="text-xs font-medium line-clamp-2">{c.title}</p>
-                <p className="text-xs text-zinc-500 mt-0.5">${c.price}</p>
-              </div>
+              <div className="min-w-0"><p className="text-xs font-medium line-clamp-2">{c.title}</p><p className="text-xs text-zinc-500 mt-0.5">${c.price}</p></div>
             </div>
           ))}
         </div>
@@ -612,74 +436,60 @@ function LearningDashboardPage() {
   )
 }
 
-function CheckoutPage() {
-  const cart = [courses[0], courses[2]]
-  const subtotal = cart.reduce((sum, c) => sum + c.price, 0)
+function PageCart() {
+  const { cart, addToCart, navigate } = useApp()
+  const cartCourses = courses.filter(c => cart.includes(c.id))
+  const subtotal = cartCourses.reduce((s, c) => s + c.price, 0)
   const total = subtotal + 5.99
+
+  if (cartCourses.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+        <span className="text-6xl block mb-4">🛒</span>
+        <p className="text-zinc-400 mb-4">Your cart is empty</p>
+        <button onClick={() => navigate('browse')} className="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-6 py-2.5 rounded-lg text-sm cursor-pointer">Browse Courses</button>
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="flex items-center gap-3 mb-8">
-        <span className="text-sm text-zinc-500">Cart</span>
+        <span className="text-sm text-white font-semibold">Cart ({cartCourses.length})</span>
         <span className="text-zinc-700">→</span>
-        <span className="text-sm text-white font-semibold">Checkout</span>
-        <span className="text-zinc-700">→</span>
-        <span className="text-sm text-zinc-500">Complete</span>
+        <span className="text-sm text-zinc-500">Checkout</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2">
           <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6">
             <h2 className="font-bold text-lg mb-4">Order Summary</h2>
-            {cart.map((course, i) => (
-              <div key={i} className="flex gap-4 py-3 border-b border-zinc-800 last:border-0">
-                <div className="w-20 h-14 bg-gradient-to-br from-rose-900/30 to-purple-900/20 rounded-lg flex items-center justify-center text-2xl shrink-0">{course.image}</div>
+            {cartCourses.map(c => (
+              <div key={c.id} className="flex gap-4 py-3 border-b border-zinc-800 last:border-0">
+                <div className="w-20 h-14 bg-gradient-to-br from-rose-900/30 to-purple-900/20 rounded-lg flex items-center justify-center text-2xl shrink-0">{c.image}</div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm line-clamp-1">{course.title}</p>
-                  <p className="text-xs text-zinc-500 mt-0.5">{course.instructor} • {course.duration}</p>
+                  <p className="font-semibold text-sm line-clamp-1">{c.title}</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">{c.instructor} · {c.duration}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold">${course.price}</p>
-                  <p className="text-xs text-zinc-500 line-through">${course.originalPrice}</p>
+                  <p className="font-bold">${c.price}</p>
+                  <p className="text-xs text-zinc-500 line-through">${c.originalPrice}</p>
+                  <p onClick={() => addToCart(c.id)} className="text-xs text-red-400 mt-1 cursor-pointer hover:text-red-300">Remove</p>
                 </div>
               </div>
             ))}
-          </div>
-          <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6">
-            <h2 className="font-bold text-lg mb-4">Payment Method</h2>
-            <div className="space-y-3">
-              {[
-                { label: 'Credit Card', icon: '💳', active: true },
-                { label: 'PayPal', icon: '🅿️' },
-                { label: 'Apple Pay', icon: '🍎' },
-              ].map(method => (
-                <div key={method.label} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${method.active ? 'border-purple-500/50 bg-purple-500/5' : 'border-zinc-700 bg-zinc-800/50 hover:border-zinc-600'}`}>
-                  <span className="text-lg">{method.icon}</span>
-                  <span className="text-sm">{method.label}</span>
-                  {method.active && <span className="ml-auto w-4 h-4 rounded-full bg-purple-500 flex items-center justify-center"><span className="w-2 h-2 rounded-full bg-white" /></span>}
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-4">
-              <input placeholder="Card number" className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500 col-span-2" />
-              <input placeholder="MM/YY" className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500" />
-              <input placeholder="CVC" className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500" />
-            </div>
           </div>
         </div>
         <div className="lg:col-span-1">
           <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-5 sticky top-20">
             <h3 className="font-bold mb-4">Receipt</h3>
             <div className="space-y-2.5 text-sm">
-              <div className="flex justify-between text-xs"><span className="text-zinc-400">Subtotal ({cart.length} items)</span><span>${subtotal.toFixed(2)}</span></div>
+              <div className="flex justify-between text-xs"><span className="text-zinc-400">Subtotal ({cartCourses.length} items)</span><span>${subtotal.toFixed(2)}</span></div>
               <div className="flex justify-between text-xs"><span className="text-zinc-400">Service fee</span><span>$5.99</span></div>
+              <div className="flex justify-between text-xs"><span className="text-zinc-400">Coupon BAKE10</span><span className="text-emerald-400">Applied</span></div>
               <div className="border-t border-zinc-800 pt-2.5 flex justify-between font-bold"><span>Total</span><span>${total.toFixed(2)}</span></div>
             </div>
-            <button className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 rounded-lg mt-5 transition-colors text-sm cursor-pointer">Complete Purchase</button>
+            <button onClick={() => alert(`Order placed! $${total.toFixed(2)}\n\nConfirmation sent to your email.\n\nCourses:\n${cartCourses.map(c => `• ${c.title}`).join('\n')}`)} className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 rounded-lg mt-5 transition-colors text-sm cursor-pointer">Complete Purchase</button>
             <p className="text-xs text-zinc-600 text-center mt-3">30-Day Money-Back Guarantee</p>
-            <div className="border-t border-zinc-800 mt-4 pt-4 space-y-2 text-xs text-zinc-500">
-              <div className="flex gap-2"><span>🔒</span> Secure checkout</div>
-              <div className="flex gap-2"><span>🔄</span> Lifetime access</div>
-              <div className="flex gap-2"><span>🎓</span> Certificate included</div>
-            </div>
           </div>
         </div>
       </div>
@@ -690,15 +500,34 @@ function CheckoutPage() {
 export default function CakeryPlatform() {
   const [page, setPage] = useState('home')
   const [selectedCourse, setSelectedCourse] = useState(null)
+  const [cart, setCart] = useState([])
+  const [enrolled, setEnrolled] = useState([])
+  const [search, setSearch] = useState('')
+  const [filterCat, setFilterCat] = useState('')
+  const [sortBy, setSortBy] = useState('popular')
+
+  const addToCart = useCallback((id) => {
+    setCart(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
+  }, [])
+  const addToEnrolled = useCallback((id) => {
+    setEnrolled(prev => prev.includes(id) ? prev : [...prev, id])
+  }, [])
+  const navigate = useCallback((screen, course) => {
+    setPage(screen)
+    if (course) setSelectedCourse(course)
+    if (screen === 'browse' && !course) setSelectedCourse(null)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <ClientHeader page={page} setPage={setPage} />
-      {page === 'home' && <HomePage setPage={setPage} setSelectedCourse={setSelectedCourse} />}
-      {page === 'browse' && <BrowsePage setSelectedCourse={setSelectedCourse} />}
-      {page === 'learning' && <LearningDashboardPage />}
-      {page === 'checkout' && <CheckoutPage />}
-      {selectedCourse && <CourseDetailModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />}
-    </div>
+    <AppCtx.Provider value={{ selectedCourse, cart, enrolled, search, setSearch, filterCat, setFilterCat, sortBy, setSortBy, navigate, addToCart, addToEnrolled }}>
+      <div className="min-h-screen bg-zinc-950 text-white">
+        <ClientHeader page={page} setPage={setPage} />
+        {page === 'home' && <PageHome setPage={setPage} />}
+        {page === 'browse' && <PageBrowse />}
+        {page === 'learning' && <PageLearning />}
+        {page === 'cart' && <PageCart />}
+        {selectedCourse && <CourseDetailModal />}
+      </div>
+    </AppCtx.Provider>
   )
 }
