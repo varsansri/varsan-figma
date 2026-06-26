@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { getMe, getFile, getProjectFiles, getTeamProjects, getImages } from '../services/figma'
+import { getMe, getFile, getProjectFiles, getTeamProjects, getImages, setApiKey, getApiKey } from '../services/figma'
 
 function Card({ title, children, className = '' }) {
   return (
@@ -275,8 +275,34 @@ function ImageExport() {
 }
 
 export default function FigmaDashboard({ activeTab }) {
+  const [keyInput, setKeyInput] = useState(getApiKey())
+
+  const handleSaveKey = () => {
+    setApiKey(keyInput)
+  }
+
   return (
     <div className="space-y-6">
+      <Card title="Figma API Key">
+        <div className="flex gap-2">
+          <input
+            type="password"
+            value={keyInput}
+            onChange={(e) => setKeyInput(e.target.value)}
+            placeholder="Enter your Figma personal access token..."
+            className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
+          />
+          <button
+            onClick={handleSaveKey}
+            className="bg-white text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-zinc-200 transition-colors cursor-pointer"
+          >
+            Save
+          </button>
+        </div>
+        <p className="text-xs text-zinc-600 mt-2">
+          Your key is stored locally in your browser and never sent anywhere except Figma's API.
+        </p>
+      </Card>
       {activeTab === 'dashboard' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <UserInfo />
